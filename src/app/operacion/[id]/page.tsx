@@ -44,7 +44,7 @@ export default async function Home({ params }: OperationProps) {
             <div className={styles.headerContainer}>
                 <div style={{ display: 'inline-flex', gap: 10 }}>
                     <Button label="Volver" secondary href={`/tramite/${operation.tramit_id}`}/>
-                    <CreateButton createAction={createTransactionWithOperationId} label="Nuevo" >
+                    {!tramit?.complete && <CreateButton createAction={createTransactionWithOperationId} label="Nuevo" >
                         <p><b>Nuevo Estudio para el afiliado {affiliate?.name}</b></p>
                         <p>Ingrese el código del estudio médico o el nombre del mismo</p>
                         <CreateSelect required validator={{ type: 'code', message: 'El código del estudio tiene que tener 6 digitos' }} placeholder="Ingrese el código del estudio médico o el nombre del mismo" createAction={createMedicalStudy} searchKeys={[MEDICAL_STUDY_FIELDS.name, MEDICAL_STUDY_FIELDS.code]} name="Estudio" data={medicalStudies} keyValue={MEDICAL_STUDY_FIELDS.code} keyText={MEDICAL_STUDY_FIELDS.name}>
@@ -61,8 +61,8 @@ export default async function Home({ params }: OperationProps) {
                         <Input name={TRANSACTION_FIELDS.quantity} placeholder="Cantidad" type="number" formatter='integer' required />
                         <p>Coseguro</p>
                         <Input name={TRANSACTION_FIELDS.copay} placeholder="Coseguro" type="number" />
-                    </CreateButton>
-                    <DeleteButton api={`api/operation?id=${operation._id}`} href={`/tramite/${tramit?._id}`} name="operación" />
+                    </CreateButton>}
+                    {!tramit?.complete && <DeleteButton api={`api/operation?id=${operation._id}`} href={`/tramite/${tramit?._id}`} name="operación" />}
                 </div>
                 <div className={styles.totalContainer}>
                     <div className={styles.tramitTotal}>Total <b>{formatToARS(operation.total)}</b> </div>
@@ -80,7 +80,7 @@ export default async function Home({ params }: OperationProps) {
                         <Pill label={transaction.quantity.toString()} />
                         <Pill status="success" label={formatToARS((transaction.price * transaction.quantity) - transaction.copay)} />
                     </div>}
-                    href={`/transaccion/${transaction._id}`} 
+                    href={tramit?.complete ? '#' : `/transaccion/${transaction._id}`} 
                 />
             })}
         </div>

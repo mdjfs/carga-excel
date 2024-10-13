@@ -8,6 +8,11 @@
     transition: background-color 0.3s ease;
     font-size: 14px;
 
+     
+    &:hover {
+        background-color: #005bb5;
+    }
+
     &[data-secondary=true] {
         background-color: #f1f1f1 !important;
         color: #333  !important;
@@ -23,7 +28,11 @@
         }
     }
 
-    &:hover {
-        background-color: #005bb5;
+    &[data-success=true] {
+        background-color: #85BB64 !important;
+
+        &:hover {
+            background-color: #73a156 !important;
+        }
     }
 }

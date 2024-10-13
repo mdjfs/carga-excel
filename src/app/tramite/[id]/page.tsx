@@ -17,6 +17,7 @@ import { formatToARS } from "@/utils/money"
 import styles from "./tramit.module.scss"
 import Pill from "@/components/Pill";
 import DeleteButton from "@/components/DeleteButton";
+import ExcelButton from "@/components/ExcelButton";
 
 
 
@@ -42,7 +43,7 @@ export default async function Home({ params }: TramitProps) {
        <div className={styles.headerContainer}>
          <div style={{ display: 'inline-flex', gap: 10 }}>
             <Button label="Volver" secondary href='/' />
-            <CreateButton createAction={createOperationWithTramitId} label="Nueva Operación" >
+            {!tramit.complete && <CreateButton createAction={createOperationWithTramitId} label="Nueva Operación" >
               <p><b>Nueva Operación para el Tramite {tramit.name}</b></p>
               <p>Ingrese el número del afiliado o el nombre del mismo</p>
               <CreateSelect required placeholder="Ingresa el numero o el nombre del afiliado" createAction={createAffiliate} searchKeys={[AFFILIATE_FIELDS.name, AFFILIATE_FIELDS.identifier]} name="Afiliado" data={affiliates} keyValue={AFFILIATE_FIELDS.identifier} keyText={AFFILIATE_FIELDS.name}>
@@ -51,10 +52,10 @@ export default async function Home({ params }: TramitProps) {
                   <p>Identificador del Afiliado</p>
                   <Input name={AFFILIATE_FIELDS.identifier} placeholder="Identificador del Afiliado" />
               </CreateSelect>
-            </CreateButton>
-            <DeleteButton api={`api/tramit?id=${tramit._id}`} href="/" name="tramite" />
+            </CreateButton>}
+            {!tramit.complete && <DeleteButton api={`api/tramit?id=${tramit._id}`} href="/" name="tramite" />}
          </div>
-          {canSave && <Button label="Exportar a Excel" className={styles.excelButton} />}
+          {canSave && <ExcelButton tramitId={tramit._id.toString()} />}
           {!canSave && <div className={styles.totalContainer}>
             <div className={styles.tramitTotal}>Total <b>{formatToARS(tramit.total)}</b> </div>
             <div  className={styles.tramitRemaining}>Restante <b>{formatToARS(tramit.total - sumOperation)}</b> </div>  

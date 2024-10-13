@@ -10,11 +10,12 @@ interface ButtonProps {
     type?: 'button' | 'submit';
     className?: string;
     danger?: boolean;
+    success?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, onClick, secondary, href, type = 'button', className = '', danger }) => {
+const Button: React.FC<ButtonProps> = ({ label, onClick, secondary, href, type = 'button', className = '', danger, success }) => {
     const btn = (
-        <button className={`${styles.button} ${className}`} data-secondary={secondary} data-danger={danger} onClick={onClick} type={type}>
+        <button className={`${styles.button} ${className}`} data-secondary={secondary} data-danger={danger} data-success={success} onClick={onClick} type={type}>
             {label}
         </button>
     );
