@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import React, { useEffect, useState } from 'react';
 import styles from './input.module.scss';
@@ -46,13 +47,13 @@ const Input: React.FC<InputProps> = ({ placeholder, name, value: propValue, onCh
             }
         }
         setValue(e.target.value)
-        onChange && onChange(e)
+        if(onChange) onChange(e)
     }
 
 
     useEffect(() => {
         if(propValue) setValue(propValue && formatter ? formatter(propValue) : propValue)
-    }, [propValue])
+    }, [propValue, formatter])
 
     return (
         <input 
