@@ -1,0 +1,46 @@
+.select-input {
+    display: flex;
+    flex-direction: column;
+
+    select {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            border-color: #0070f3;
+            outline: none;
+        }
+    }
+
+    .input {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+
+        &:focus {
+            border-color: #0070f3;
+            outline: none;
+        }
+    }
+}
+
+.select-input-options {
+    width: 100%;
+    background-color: #f8f8f8;
+    margin-top: -2px;
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: column;
+
+    > div {
+        box-sizing: border-box;
+        padding: 10px;
+        &:hover {
+            background-color: #f1f0f0;
+            cursor: pointer;
+        }
+    }
+}

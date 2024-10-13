@@ -1,0 +1,29 @@
+.button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #0070f3;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+
+    &[data-secondary=true] {
+        background-color: #f1f1f1 !important;
+        color: #333  !important;
+        &:hover {
+            background-color: #e1e1e1 !important;
+        }
+    }
+
+    &[data-danger=true] {
+        background-color: red !important;
+        &:hover {
+            background-color: darkred !important;
+        }
+    }
+
+    &:hover {
+        background-color: #005bb5;
+    }
+}

@@ -1,0 +1,30 @@
+.totalContainer {
+    background-color: #fafafa;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 14px;
+
+    .tramitTotal b {
+        color: #85BB64;
+    }
+
+    .tramitRemaining b {
+        color: red;
+    }
+
+}
+
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    align-items: center;
+
+   
+     * {
+        height: auto;
+        flex-shrink: 0;
+     }
+}
