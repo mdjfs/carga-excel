@@ -22,11 +22,11 @@ export default async function CreateData ({ action, type }: CreateDataProps) {
         return <CreateButton createAction={action} label="Nueva Operación" >
             <p><b>Nueva Operación</b></p>
             <p>Ingrese el número del afiliado o el nombre del mismo</p>
-            <CreateSelect required placeholder="Ingresa el numero o el nombre del afiliado" data={affiliates} createAction={createAffiliate} searchKeys={[AFFILIATE_FIELDS.name, AFFILIATE_FIELDS.identifier]} name="Afiliado" keyValue={AFFILIATE_FIELDS.identifier} keyText={AFFILIATE_FIELDS.name} validator={{ type: 'identifier', message: 'El identificador del afiliado tiene que tener 10 digitos' }} >
+            <CreateSelect required placeholder="Ingresa el numero o el nombre del afiliado" data={affiliates} createAction={createAffiliate} searchKeys={[AFFILIATE_FIELDS.name, AFFILIATE_FIELDS.identifier]} name="Afiliado" keyValue={AFFILIATE_FIELDS.identifier} keyText={AFFILIATE_FIELDS.name} >
                 <p>Nombre del Afiliado</p>
                 <Input name={AFFILIATE_FIELDS.name} placeholder="Nombre del Afiliado" />
                 <p>Identificador del Afiliado</p>
-                <Input name={AFFILIATE_FIELDS.identifier} placeholder="Identificador del Afiliado" />
+                <Input name={AFFILIATE_FIELDS.identifier} placeholder="Identificador del Afiliado" validator={{ type: 'identifier', message: 'El identificador del afiliado tiene que tener 10 digitos' }}  />
             </CreateSelect>
         </CreateButton>
     }
@@ -41,11 +41,11 @@ export default async function CreateData ({ action, type }: CreateDataProps) {
             <p>Monto Total</p>
             <Input name={GROUP_FIELDS.total} placeholder="Monto Total" type="number" required />
             <p>Estudio Médico</p>
-            <CreateSelect required data={medicalStudies} validator={{ type: 'code', message: 'El código del estudio tiene que tener 6 digitos' }} placeholder="Ingrese el código del estudio médico o el nombre del mismo" createAction={createMedicalStudy} searchKeys={[MEDICAL_STUDY_FIELDS.name, MEDICAL_STUDY_FIELDS.code]} name="Estudio" keyValue={MEDICAL_STUDY_FIELDS.code} keyText={MEDICAL_STUDY_FIELDS.name}>
+            <CreateSelect required data={medicalStudies} placeholder="Ingrese el código del estudio médico o el nombre del mismo" createAction={createMedicalStudy} searchKeys={[MEDICAL_STUDY_FIELDS.name, MEDICAL_STUDY_FIELDS.code]} name="Estudio" keyValue={MEDICAL_STUDY_FIELDS.code} keyText={MEDICAL_STUDY_FIELDS.name}>
                 <p>Nombre del Estudio Médico</p>
                 <Input name={MEDICAL_STUDY_FIELDS.name} placeholder="Nombre del Estudio Médico" />
                 <p>Código del Estudio Médico</p>
-                <Input name={MEDICAL_STUDY_FIELDS.code} placeholder="Código del Estudio Médico" />
+                <Input validator={{ type: 'code', message: 'El código del estudio tiene que tener 6 digitos' }} name={MEDICAL_STUDY_FIELDS.code} placeholder="Código del Estudio Médico" />
             </CreateSelect>
         </CreateButton>
     }
@@ -54,11 +54,11 @@ export default async function CreateData ({ action, type }: CreateDataProps) {
         return <CreateButton createAction={action} label="Nuevo" >
             <p><b>Nuevo Estudio</b></p>
             <p>Ingrese el código del estudio médico o el nombre del mismo</p>
-            <CreateSelect required validator={{ type: 'code', message: 'El código del estudio tiene que tener 6 digitos' }} placeholder="Ingrese el código del estudio médico o el nombre del mismo" createAction={createMedicalStudy} searchKeys={[MEDICAL_STUDY_FIELDS.name, MEDICAL_STUDY_FIELDS.code]} name="Estudio" data={medicalStudies} keyValue={MEDICAL_STUDY_FIELDS.code} keyText={MEDICAL_STUDY_FIELDS.name}>
+            <CreateSelect required placeholder="Ingrese el código del estudio médico o el nombre del mismo" createAction={createMedicalStudy} searchKeys={[MEDICAL_STUDY_FIELDS.name, MEDICAL_STUDY_FIELDS.code]} name="Estudio" data={medicalStudies} keyValue={MEDICAL_STUDY_FIELDS.code} keyText={MEDICAL_STUDY_FIELDS.name}>
                 <p>Nombre del Estudio Médico</p>
                 <Input name={MEDICAL_STUDY_FIELDS.name} placeholder="Nombre del Estudio Médico" />
                 <p>Código del Estudio Médico</p>
-                <Input name={MEDICAL_STUDY_FIELDS.code} placeholder="Código del Estudio Médico" />
+                <Input validator={{ type: 'code', message: 'El código del estudio tiene que tener 6 digitos' }} name={MEDICAL_STUDY_FIELDS.code} placeholder="Código del Estudio Médico" />
             </CreateSelect>
             <p>Fecha</p>
             <Input name={TRANSACTION_FIELDS.date} placeholder="Fecha" formatter="date" required validator={{ type: 'date', message: 'Ingresa una fecha válida en formato dd/mm/yyyy'}} />
