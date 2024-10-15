@@ -45,7 +45,7 @@ export default async function Home({ params }: TransactionProps) {
                         await Transaction.create({
                             operation_id: operation._id,
                             medical_study_id: group.medical_study_id,
-                            price: parseFloat((group.total / group.quantity).toFixed(2)),
+                            price: parseFloat((group.total / group.quantity).toFixed(4)),
                             quantity: 1,
                             copay: 0,
                             date: dateObj
