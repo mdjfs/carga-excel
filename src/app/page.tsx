@@ -1,10 +1,8 @@
-import { TRAMIT_FIELDS } from "@/actions/constants";
 import { createTramit } from "@/actions/createTramit";
 import { getTramits } from "@/actions/getTramits";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
-import CreateButton from "@/components/CreateButton";
-import Input from "@/components/Input";
+import CreateData from "@/components/CreateData";
 import Pill from "@/components/Pill";
 
 
@@ -22,12 +20,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
       <div style={{maxWidth: 1200, margin: 'auto', position: 'relative'}}>
-        <CreateButton createAction={createTramit} label="Nuevo Trámite" redirectUri="/tramite/[id]">
-          <p>Nombre del Trámite</p>
-          <Input name={TRAMIT_FIELDS.name} placeholder="Nombre del Trámite" required />
-          <p>Monto Total del Trámite</p>
-          <Input type="number" name={TRAMIT_FIELDS.total} placeholder="Monto Total del Trámite" required />
-        </CreateButton>
+        <CreateData type="tramit" action={createTramit}/>
         {tramits.length === 0 && <p>No hay trámites creados todavía.</p>}
         {tramits.length > 0 && <>
           {complete === undefined && <>

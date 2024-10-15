@@ -21,9 +21,10 @@ interface CreateSelectProps {
         type: string;
         message: string;
     },
+    inputName?: string;
 }
 
-const CreateSelect: React.FC<CreateSelectProps> = ({ name, validator, required, children, createAction, data, keyValue, keyText, selected: propSelected, placeholder, searchKeys = ['name']}) => {
+const CreateSelect: React.FC<CreateSelectProps> = ({ name, validator, required, children, createAction, data, keyValue, keyText, selected: propSelected, placeholder, searchKeys = ['name'], inputName }) => {
     const [create, setCreate] = useState(false);
     const [selected, setSelected] = useState<any>();
 
@@ -57,7 +58,7 @@ const CreateSelect: React.FC<CreateSelectProps> = ({ name, validator, required, 
                     value={selected}
                     getValue={(option) => option[keyValue || 'name']}
                     getText={(option) => option[keyText || 'name']}
-                    name={keyValue}
+                    name={inputName || keyValue}
                     placeholder={placeholder}
                     required={required}
                     validator={validator}

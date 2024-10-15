@@ -25,6 +25,19 @@ export const MEDICAL_STUDY_FIELDS = {
     code: 'code'
 }
 
+export const GROUP_OPERATION_FIELDS = {
+    date: 'date',
+    identifier: 'identifier'
+}
+
+export const GROUP_FIELDS = {
+    quantity: 'quantity',
+    code: 'code',
+    total: 'total',
+    name: 'name'
+}
+
 export const GET_TRAMITS_TAG = 'tramitsTag'
 export const GET_AFFILIATES_TAG = 'affiliatesTag'
 export const GET_MEDICAL_STUDIES_TAG = 'medicalStudiesTag'
+export const GET_OPERATIONS_TAG = 'operationsTag'

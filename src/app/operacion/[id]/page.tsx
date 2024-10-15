@@ -8,18 +8,14 @@ import Tramit from "@/database/models/Tramit";
 import Transaction from "@/database/models/Transaction";
 import { notFound } from "next/navigation";
 import styles from "./operation.module.scss"
-import CreateButton from "@/components/CreateButton";
 import { createTransaction } from "@/actions/createTransaction";
-import { createMedicalStudy } from "@/actions/createMedicalStudy";
-import { MEDICAL_STUDY_FIELDS, TRANSACTION_FIELDS } from "@/actions/constants";
 import { getMedicalStudies } from "@/actions/getMedicalStudies";
-import CreateSelect from "@/components/CreateSelect";
-import Input from "@/components/Input";
 import { formatToARS } from "@/utils/money";
 import { formatDateToDDMMYYYY } from "@/utils/date";
 import Pill from "@/components/Pill";
 import Button from "@/components/Button";
 import DeleteButton from "@/components/DeleteButton";
+import CreateData from "@/components/CreateData";
 
 interface OperationProps {
     params: { id: string };
@@ -44,24 +40,7 @@ export default async function Home({ params }: OperationProps) {
             <div className={styles.headerContainer}>
                 <div style={{ display: 'inline-flex', gap: 10 }}>
                     <Button label="Volver" secondary href={`/tramite/${operation.tramit_id}`}/>
-                    {!tramit?.complete && <CreateButton createAction={createTransactionWithOperationId} label="Nuevo" >
-                        <p><b>Nuevo Estudio para el afiliado {affiliate?.name}</b></p>
-                        <p>Ingrese el código del estudio médico o el nombre del mismo</p>
-                        <CreateSelect required validator={{ type: 'code', message: 'El código del estudio tiene que tener 6 digitos' }} placeholder="Ingrese el código del estudio médico o el nombre del mismo" createAction={createMedicalStudy} searchKeys={[MEDICAL_STUDY_FIELDS.name, MEDICAL_STUDY_FIELDS.code]} name="Estudio" data={medicalStudies} keyValue={MEDICAL_STUDY_FIELDS.code} keyText={MEDICAL_STUDY_FIELDS.name}>
-                            <p>Nombre del Estudio Médico</p>
-                            <Input name={MEDICAL_STUDY_FIELDS.name} placeholder="Nombre del Estudio Médico" />
-                            <p>Código del Estudio Médico</p>
-                            <Input name={MEDICAL_STUDY_FIELDS.code} placeholder="Código del Estudio Médico" />
-                        </CreateSelect>
-                        <p>Fecha</p>
-                        <Input name={TRANSACTION_FIELDS.date} placeholder="Fecha" formatter="date" required validator={{ type: 'date', message: 'Ingresa una fecha válida en formato dd/mm/yyyy'}} />
-                        <p>Precio</p>
-                        <Input name={TRANSACTION_FIELDS.price} placeholder="Precio" type="number" required />
-                        <p>Cantidad</p>
-                        <Input name={TRANSACTION_FIELDS.quantity} placeholder="Cantidad" type="number" formatter='integer' required />
-                        <p>Coseguro</p>
-                        <Input name={TRANSACTION_FIELDS.copay} placeholder="Coseguro" type="number" />
-                    </CreateButton>}
+                    {!tramit?.complete && <CreateData type="transaction" action={createTransactionWithOperationId} />}
                     {!tramit?.complete && <DeleteButton api={`api/operation?id=${operation._id}`} href={`/tramite/${tramit?._id}`} name="operación" />}
                 </div>
                 <div className={styles.totalContainer}>

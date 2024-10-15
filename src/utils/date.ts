@@ -23,3 +23,12 @@ export function formatDateToDDMMYYYY(date: Date) {
 
     return `${day}/${month}/${year}`;
 }
+
+export function getDate(date: string): Date {
+    const [day, month, year] = date.split('/');
+    const dateObj = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    if (isNaN(dateObj.getTime())) {
+        throw new Error("Fecha inválida");
+    }
+    return dateObj
+}

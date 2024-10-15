@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use server';
 
 import dbConnect from "@/database";
@@ -7,7 +8,9 @@ import { GET_TRAMITS_TAG } from "./constants";
 export async function getTramits(complete?: string) {
     'use server'
     await dbConnect();
-    const tramits = complete === undefined ? await Tramit.find({}).lean() : await Tramit.find({ complete }).lean();
+    const filter = {} as any
+    if (complete !== undefined) filter.complete = complete;
+    const tramits = await Tramit.find(filter).sort({ _id: -1 }).lean();
 
     return { tramits: tramits.map(tramit => ({
         _id: tramit._id.toString(),

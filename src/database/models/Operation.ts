@@ -4,6 +4,7 @@ export interface IOperation extends Document {
   _id: string;
   affiliate_id: Schema.Types.ObjectId;
   tramit_id: Schema.Types.ObjectId;
+  group_id?: Schema.Types.ObjectId;
   total: number;
 }
 
@@ -17,6 +18,10 @@ const operationSchema = new Schema<IOperation>({
     type: Schema.Types.ObjectId,
     ref: 'Tramit',
     required: true
+  },
+  group_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'Group'
   },
   total: {
     type: Number,

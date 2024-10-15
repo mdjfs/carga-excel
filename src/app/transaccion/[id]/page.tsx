@@ -1,7 +1,8 @@
 'use server'
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MEDICAL_STUDY_FIELDS, TRANSACTION_FIELDS } from "@/actions/constants";
+import {  MEDICAL_STUDY_FIELDS, TRANSACTION_FIELDS } from "@/actions/constants";
 import { createMedicalStudy } from "@/actions/createMedicalStudy";
+import { getMedicalStudies } from "@/actions/getMedicalStudies";
 import Button from "@/components/Button";
 import CreateSelect from "@/components/CreateSelect";
 import DeleteButton from "@/components/DeleteButton";
@@ -11,7 +12,8 @@ import dbConnect from "@/database";
 import MedicalStudies from "@/database/models/MedicalStudies";
 import Operation from "@/database/models/Operation";
 import Transaction from "@/database/models/Transaction";
-import { formatDateToDDMMYYYY } from "@/utils/date";
+import { formatDateToDDMMYYYY, getDate } from "@/utils/date";
+import { getForm } from "@/utils/form";
 import { notFound, redirect } from "next/navigation";
 
 interface TransactionProps {
@@ -26,33 +28,24 @@ export default async function Home({ params }: TransactionProps) {
 
     async function handleSubmit(formData: FormData) {
         'use server'
-        const code = formData.get(TRANSACTION_FIELDS.code) as string
-        const price = formData.get(TRANSACTION_FIELDS.price) as string
-        const quantity = formData.get(TRANSACTION_FIELDS.quantity) as string
-        const copay = formData.get(TRANSACTION_FIELDS.copay) as string
-        const date = formData.get(TRANSACTION_FIELDS.date) as string
+        const { code, price, quantity, copay, date } = getForm(TRANSACTION_FIELDS, formData)
         if(code) {
             const medicalStudy = await MedicalStudies.findOne({ code }).lean();
             if(medicalStudy && operation) {
-                const [day, month, year] = date.split('/');
-                const dateObj = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-                if (isNaN(dateObj.getTime())) {
-                    throw new Error("Fecha inválida");
-                }
                 await Transaction.findOneAndUpdate({ _id: params.id }, {
                     operation_id: operation._id,
                     medical_study_id: medicalStudy._id,
                     price: parseFloat(price),
                     quantity: parseInt(quantity),
                     copay: copay ? parseFloat(copay) : 0,
-                    date: dateObj
+                    date: getDate(date)
                 })
                 redirect(`/operacion/${operation._id}`)
             }
         }
     }
 
-    const medicalStudies = await MedicalStudies.find({}).lean();
+    const { medicalStudies } = await getMedicalStudies()
 
     const selectedStudy = await MedicalStudies.findById(transaction.medical_study_id).lean();
 

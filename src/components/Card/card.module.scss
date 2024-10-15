@@ -1,4 +1,5 @@
 .card {
+    position: relative;
     background-color: #fafafa;
     border: 1px solid #eaeaea;
     box-sizing: border-box;
@@ -46,4 +47,32 @@
             }
         }
     }
+}
+
+
+.card-chevron {
+    position: absolute;
+    right: 25px;
+    top: calc(40% - 25px);
+    width: 40px;
+    height: 40px;
+    transform: rotate(90deg);
+    transition: transform ease-in 0.3s;
+    svg { 
+        width: 40px;
+        height: 40px;
+        fill: #666
+    }
+    &[data-is-open=true] {
+        transform: rotate(-90deg);
+    }
+}
+
+.cardContainer {
+    background-color: #fafafa;
+    border: 1px solid #eaeaea;
+    margin-top: -40px;
+    padding: 20px;
+    box-sizing: border-box;
+     border-radius: 10px;
 }

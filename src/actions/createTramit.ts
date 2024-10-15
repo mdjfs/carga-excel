@@ -4,12 +4,12 @@ import dbConnect from "@/database";
 import Tramit from "@/database/models/Tramit";
 import { GET_TRAMITS_TAG, TRAMIT_FIELDS } from "./constants";
 import { revalidateTag } from "next/cache";
+import { getForm } from "@/utils/form";
 
 
 export async function createTramit(formData: FormData) {
     'use server'
-    const name = formData.get(TRAMIT_FIELDS.name) as string
-    const total = formData.get(TRAMIT_FIELDS.total) as string
+    const { name, total } = getForm(TRAMIT_FIELDS, formData)
     if (name && total) {
         await dbConnect();
         const tramit = new Tramit({ name, total: parseFloat(total) });

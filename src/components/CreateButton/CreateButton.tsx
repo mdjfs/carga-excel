@@ -20,7 +20,6 @@ const CreateButton: React.FC<CreateButtonProps> = ({ label, children, createActi
     const handleSubmit = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
         event.stopPropagation();
         event.preventDefault();
-        console.log(ref.current === event.currentTarget)
         const formData = new FormData(event.currentTarget);
         const data = await createAction(formData);
         setCreate(false);

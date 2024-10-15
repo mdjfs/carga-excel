@@ -8,14 +8,14 @@ interface ButtonProps {
     href: string;
 }
 
-const DeleteButton: React.FC<ButtonProps> = ({ api, name, href }) => {
+const DeleteButton: React.FC<ButtonProps> = ({ api, name, href}) => {
 
     const handleDelete = () => {
         if (confirm(`¿Estás seguro de eliminar esta ${name}?`)) {
             fetch(`/${api}`, {
                 method: 'DELETE'
             }).then(() => {
-                window.location.href = href
+                window.location.href = href 
             });
         }
     }

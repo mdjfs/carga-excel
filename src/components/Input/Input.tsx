@@ -25,7 +25,9 @@ const getFormatter = {
 } as any
 
 const getRegex = {
-    'date': /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/
+    'date': /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
+    'code': /^\d{6}$/,
+    'identifier': /^\d{10}$/
 } as any
 
 const Input: React.FC<InputProps> = ({ placeholder, name, value: propValue, onChange, type = "text", onClick, formatter: propFormatter = '', validator, required }) => {

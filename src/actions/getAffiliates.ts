@@ -7,7 +7,7 @@ import Affiliate from "@/database/models/Affiliate";
 export async function getAffiliates() {
     'use server'
     await dbConnect();
-    const affiliates = await Affiliate.find({}).lean();
+    const affiliates = await Affiliate.find({}).sort({ _id: -1 }).lean();
 
     return { affiliates: affiliates.map(affiliate => ({
         _id: affiliate._id.toString(),
