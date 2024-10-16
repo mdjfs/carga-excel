@@ -36,7 +36,7 @@ export async function getOperations(tramitId: string) {
                 _id: operation._id.toString(),
                 affiliate_id: operation.affiliate_id.toString(),
                 tramit_id: operation.tramit_id.toString(),
-                group_id: operation.group_id.toString(),
+                group_id: operation.group_id?.toString(),
                 total: operation.total
             })),
             total: sumAll(item.items, (item) => item.total)

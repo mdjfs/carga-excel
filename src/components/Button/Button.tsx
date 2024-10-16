@@ -11,11 +11,13 @@ interface ButtonProps {
     className?: string;
     danger?: boolean;
     success?: boolean;
+    small?: boolean;
+    warning?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, onClick, secondary, href, type = 'button', className = '', danger, success }) => {
+const Button: React.FC<ButtonProps> = ({ label, onClick, secondary, href, type = 'button', className = '', danger, success, small, warning }) => {
     const btn = (
-        <button className={`${styles.button} ${className}`} data-secondary={secondary} data-danger={danger} data-success={success} onClick={onClick} type={type}>
+        <button className={`${styles.button} ${className}`} data-warning={warning} data-small={small} data-secondary={secondary} data-danger={danger} data-success={success} onClick={onClick} type={type}>
             {label}
         </button>
     );

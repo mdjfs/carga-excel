@@ -16,6 +16,9 @@ import { createGroup } from "@/actions/createGroup";
 import CreateData from "@/components/CreateData";
 import { getOperations } from "@/actions/getOperations";
 import { sumAll } from "@/utils/sum";
+import { deleteTramit } from "@/actions/deleteTramit";
+import { deleteOperation } from "@/actions/deleteOperation";
+import { deleteOperationGroup } from "@/actions/deleteOperationGroup";
 
 
 
@@ -31,6 +34,7 @@ export default async function Home({ params }: TramitProps) {
 
   const createOperationWithTramitId = createOperation.bind(null, tramit._id);
   const createGroupWithTramitId = createGroup.bind(null, tramit._id);
+  const deleteTramitWithId = deleteTramit.bind(null, tramit._id);
 
   const { affiliates } = await getAffiliates();
 
@@ -44,7 +48,7 @@ export default async function Home({ params }: TramitProps) {
             <Button label="Volver" secondary href='/' />
             {!tramit.complete && <CreateData type="operation" action={createOperationWithTramitId} />}
             {!tramit.complete && <CreateData type="group" action={createGroupWithTramitId} />}
-            {!tramit.complete && <DeleteButton api={`api/tramit?id=${tramit._id}`} href="/" name="tramite" />}
+            {!tramit.complete && <DeleteButton action={deleteTramitWithId} href="/" />}
          </div>
           {canSave && <ExcelButton tramitId={tramit._id.toString()} />}
           {!canSave && <div className={styles.totalContainer}>
@@ -60,7 +64,10 @@ export default async function Home({ params }: TramitProps) {
             return <Card
               key={operation._id.toString()}
               title={`Afiliado ${affiliate?.name}`} 
-              footer={<Pill label={formatToARS(operation.total)} status='success' />}
+              footer={<div style={{ display: 'inline-flex', gap: 5, alignItems: 'center' }}>
+                {!tramit.complete && <DeleteButton small action={deleteOperation.bind(null, operation._id.toString())} />}
+                <Pill label={formatToARS(operation.total)} status='success' />
+              </div>}
               href={`/operacion/${operation._id.toString()}`}
             />
           }
@@ -68,7 +75,11 @@ export default async function Home({ params }: TramitProps) {
             return <Card
               key={group.group_id.toString()}
               title={`Grupo ${group.group_name}`}
-              footer={<Pill label={formatToARS(group.total)} status='success' />}
+              footer={<div style={{ display: 'inline-flex', gap: 5, alignItems: 'center' }}>
+                <Button small warning href={`/grupo/${group.group_id.toString()}`} label="Editar Grupo" />
+                {!tramit.complete && <DeleteButton small action={deleteOperationGroup.bind(null, group.group_id.toString())} />}
+                <Pill label={formatToARS(group.total)} status='success' />
+              </div>}
               >
               {group.operations.map(renderOperations)}
             </Card>

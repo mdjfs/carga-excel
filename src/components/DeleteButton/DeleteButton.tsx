@@ -1,25 +1,30 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import React from 'react';
 import Button from '../Button';
+import { useRouter } from 'next/navigation';
 
 interface ButtonProps {
-    api: string;
-    name: string;
-    href: string;
+    href?: string;
+    action: () => Promise<any>;
+    small?: boolean;
 }
 
-const DeleteButton: React.FC<ButtonProps> = ({ api, name, href}) => {
+const DeleteButton: React.FC<ButtonProps> = ({ href, small, action }) => {
+    const router = useRouter();
 
-    const handleDelete = () => {
-        if (confirm(`¿Estás seguro de eliminar esta ${name}?`)) {
-            fetch(`/${api}`, {
-                method: 'DELETE'
-            }).then(() => {
-                window.location.href = href 
-            });
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.stopPropagation();
+        event.preventDefault();
+        if(confirm(`¿Estás seguro de eliminarlo?`)) {
+            await action();
+            if(href) router.push(href)
         }
-    }
-    return <Button label="Eliminar" danger onClick={handleDelete}/>
+    };
+
+    return <form onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
+        <Button label="Eliminar" danger type="submit" small={small} />
+    </form>
 };
 
 export default DeleteButton;

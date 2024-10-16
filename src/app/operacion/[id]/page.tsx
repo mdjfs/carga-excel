@@ -5,7 +5,6 @@ import dbConnect from "@/database";
 import Affiliate from "@/database/models/Affiliate";
 import Operation from "@/database/models/Operation";
 import Tramit from "@/database/models/Tramit";
-import Transaction from "@/database/models/Transaction";
 import { notFound } from "next/navigation";
 import styles from "./operation.module.scss"
 import { createTransaction } from "@/actions/createTransaction";
@@ -16,6 +15,9 @@ import Pill from "@/components/Pill";
 import Button from "@/components/Button";
 import DeleteButton from "@/components/DeleteButton";
 import CreateData from "@/components/CreateData";
+import { deleteOperation } from "@/actions/deleteOperation";
+import { deleteTransaction } from "@/actions/deleteTransaction";
+import { getTransactions } from "@/actions/getTransactions";
 
 interface OperationProps {
     params: { id: string };
@@ -29,10 +31,11 @@ export default async function Home({ params }: OperationProps) {
 
     const tramit = await Tramit.findById(operation.tramit_id).lean();
     const affiliate = await Affiliate.findById(operation.affiliate_id).lean();
-    const transactions = await Transaction.find({ operation_id: operation._id }).lean();
+    const { transactions } = await getTransactions(operation._id.toString());
     const { medicalStudies } = await getMedicalStudies();
 
     const createTransactionWithOperationId = createTransaction.bind(null, operation._id);
+    const deleteOperationWithId = deleteOperation.bind(null, operation._id);
     
 
     return (
@@ -41,7 +44,7 @@ export default async function Home({ params }: OperationProps) {
                 <div style={{ display: 'inline-flex', gap: 10 }}>
                     <Button label="Volver" secondary href={`/tramite/${operation.tramit_id}`}/>
                     {!tramit?.complete && <CreateData type="transaction" action={createTransactionWithOperationId} />}
-                    {!tramit?.complete && <DeleteButton api={`api/operation?id=${operation._id}`} href={`/tramite/${tramit?._id}`} name="operación" />}
+                    {!tramit?.complete && <DeleteButton action={deleteOperationWithId} href={`/tramite/${tramit?._id}`} />}
                 </div>
                 <div className={styles.totalContainer}>
                     <div className={styles.tramitTotal}>Total <b>{formatToARS(operation.total)}</b> </div>
@@ -54,7 +57,8 @@ export default async function Home({ params }: OperationProps) {
                 return <Card 
                     key={transaction._id.toString()} 
                     title={`${formatDateToDDMMYYYY(transaction.date)} - ${study?.name}`}
-                    footer={<div style={{display: 'inline-flex', gap: 5}}>
+                    footer={<div style={{display: 'inline-flex', gap: 5, alignItems: 'center'}}>
+                        {!tramit?.complete && <DeleteButton small action={deleteTransaction.bind(null, transaction._id)} />}
                         {transaction.copay ? <Pill label={`COPAGO ${formatToARS(transaction.copay)}`} /> : <></>}
                         <Pill label={transaction.quantity.toString()} />
                         <Pill status="success" label={formatToARS((transaction.price * transaction.quantity) - transaction.copay)} />

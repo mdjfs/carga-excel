@@ -35,4 +35,18 @@
             background-color: #73a156 !important;
         }
     }
+
+    &[data-warning=true] {
+        background-color: #FFC107 !important;
+
+        &:hover {
+            background-color: #e0a800 !important;
+        }
+    }
+
+    &[data-small=true] {
+        padding: 3px 6px !important;
+        font-size: 12px !important;
+        border-radius: 12px !important;
+    }
 }

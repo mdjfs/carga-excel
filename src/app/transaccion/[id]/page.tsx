@@ -5,7 +5,6 @@ import { createMedicalStudy } from "@/actions/createMedicalStudy";
 import { getMedicalStudies } from "@/actions/getMedicalStudies";
 import Button from "@/components/Button";
 import CreateSelect from "@/components/CreateSelect";
-import DeleteButton from "@/components/DeleteButton";
 import Input from "@/components/Input";
 import Modal from "@/components/Modal";
 import dbConnect from "@/database";
@@ -49,6 +48,7 @@ export default async function Home({ params }: TransactionProps) {
 
     const selectedStudy = await MedicalStudies.findById(transaction.medical_study_id).lean();
 
+
     return (<form action={handleSubmit}>
         <Modal portal={false}>
             <p>Ingrese el código del estudio médico o el nombre del mismo</p>
@@ -69,9 +69,6 @@ export default async function Home({ params }: TransactionProps) {
             <div style={{display: 'flex', gap: 10, marginTop: 30}}>
                 <Button secondary={true} label="Cancelar" href={`/operacion/${operation?._id}`} /> 
                 <Button label="Continuar" type="submit" />
-            </div>
-            <div>
-                <DeleteButton api={`api/transaction?id=${transaction._id}`} href={`/operacion/${operation?._id}`} name="transacción" />
             </div>
         </Modal>
     </form>)
