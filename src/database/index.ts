@@ -27,7 +27,7 @@ async function dbConnect(): Promise<typeof mongoose> {
     const opts = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      bufferCommands: false,
+      bufferCommands: false
     };
 
     cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {

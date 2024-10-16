@@ -4,15 +4,16 @@ import React, { useCallback, useRef, useState } from 'react';
 import Modal from '../Modal';
 import Button from '../Button';
 import { useRouter } from 'next/navigation';
+import { ButtonProps } from '../Button/Button';
 
-interface CreateButtonProps {
+interface CreateButtonProps extends ButtonProps {
     createAction: (formData: FormData) => Promise<any>;
     children: React.ReactNode;
     label: string;
     redirectUri?: string;
 }
 
-const CreateButton: React.FC<CreateButtonProps> = ({ label, children, createAction, redirectUri }) => {
+const CreateButton: React.FC<CreateButtonProps> = ({ label, children, createAction, redirectUri, ...buttonProps }) => {
     const router = useRouter();
     const [create, setCreate] = useState(false);
     const ref = useRef<HTMLFormElement>(null);
@@ -40,7 +41,7 @@ const CreateButton: React.FC<CreateButtonProps> = ({ label, children, createActi
                 </div>
             </form>
         </Modal>}
-        <Button label={label} onClick={() => setCreate(true)} />
+        <Button {...buttonProps} label={label} onClick={() => setCreate(true)} />
     </>
 };
 

@@ -1,0 +1,1 @@
+export const NO_STUDY_CODE = 999999

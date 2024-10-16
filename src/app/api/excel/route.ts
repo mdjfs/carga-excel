@@ -35,12 +35,30 @@ export async function GET(req: NextRequest) {
     if(!tramit) return NextResponse.json({ message: 'Trámite no encontrado.' }, { status: 404 });
 
 
+    let cells = []
     const operations = await Operation.find({ tramit_id: tramit._id }).lean()
     for(const operation of operations) {
         const affiliate = await Affiliate.findById(operation.affiliate_id).lean()
-        const transactions = await Transaction.find({ operation_id: operation._id }).lean()
+        const transactions = await Transaction.find({ operation_id: operation._id }).sort({ _id: -1 }).lean()
         for(const transaction of transactions) {
-            const cellDateRef = XLSX.utils.encode_cell({ r: i, c: 0 })
+            const medicalStudy = await MedicalStudies.findById(transaction.medical_study_id).lean()
+            cells.push({
+                date: transaction.date,
+                identifier: affiliate?.identifier,
+                code: medicalStudy?.code,
+                quantity: transaction.quantity,
+                price: transaction.price,
+                copay: transaction.copay,
+                total: transaction.price * transaction.quantity,
+                netTotal: (transaction.price * transaction.quantity) - transaction.copay
+            })
+        }
+    }
+
+    cells = cells.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+
+    for(const cell of cells) {
+         const cellDateRef = XLSX.utils.encode_cell({ r: i, c: 0 })
             const cellIdentifierRef = XLSX.utils.encode_cell({ r: i, c: 1 })
             const cellCodeRef = XLSX.utils.encode_cell({ r: i, c: 3 })
             const cellQuantityRef = XLSX.utils.encode_cell({ r: i, c: 4 })
@@ -48,17 +66,15 @@ export async function GET(req: NextRequest) {
             const cellCopayRef = XLSX.utils.encode_cell({ r: i, c: 8 })
             const cellTotalRef = XLSX.utils.encode_cell({ r: i, c: 9 });
             const cellNetTotalRef = XLSX.utils.encode_cell({ r: i, c: 10 });
-            const medicalStudy = await MedicalStudies.findById(transaction.medical_study_id).lean()
-            worksheet[cellDateRef] = getCell(transaction.date)
-            worksheet[cellIdentifierRef] = getCell(affiliate?.identifier)
-            worksheet[cellCodeRef] = getCell(medicalStudy?.code)
-            worksheet[cellQuantityRef] = getCell(transaction.quantity)
-            worksheet[cellPriceRef] = getCell(transaction.price)
-            if(transaction.copay) worksheet[cellCopayRef] = getCell(transaction.copay)
-            worksheet[cellTotalRef] = getCell(transaction.price * transaction.quantity); 
-            worksheet[cellNetTotalRef] = getCell((transaction.price * transaction.quantity) - transaction.copay); 
+            worksheet[cellDateRef] = getCell(cell.date)
+            worksheet[cellIdentifierRef] = getCell(cell?.identifier)
+            worksheet[cellCodeRef] = getCell(cell?.code)
+            worksheet[cellQuantityRef] = getCell(cell.quantity)
+            worksheet[cellPriceRef] = getCell(cell.price)
+            if(cell.copay) worksheet[cellCopayRef] = getCell(cell.copay)
+            worksheet[cellTotalRef] = getCell(cell.price * cell.quantity); 
+            worksheet[cellNetTotalRef] = getCell((cell.price * cell.quantity) - cell.copay); 
             i++;
-        }
     }
 
     const modifiedFileBuffer = XLSX.write(workbook, { bookType: 'xls', type: 'array' });

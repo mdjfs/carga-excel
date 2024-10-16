@@ -37,6 +37,10 @@ export const GROUP_FIELDS = {
     name: 'name'
 }
 
+export const TRAMIT_FIELDS_TXT = {
+    file: 'file'
+}
+
 export const GET_TRAMITS_TAG = 'tramitsTag'
 export const GET_AFFILIATES_TAG = 'affiliatesTag'
 export const GET_MEDICAL_STUDIES_TAG = 'medicalStudiesTag'

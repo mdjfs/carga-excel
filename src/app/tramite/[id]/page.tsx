@@ -50,7 +50,7 @@ export default async function Home({ params }: TramitProps) {
             {!tramit.complete && <CreateData type="group" action={createGroupWithTramitId} />}
             {!tramit.complete && <DeleteButton action={deleteTramitWithId} href="/" />}
          </div>
-          {canSave && <ExcelButton tramitId={tramit._id.toString()} />}
+          {canSave && <ExcelButton name={tramit.name} tramitId={tramit._id.toString()} />}
           {!canSave && <div className={styles.totalContainer}>
             <div className={styles.tramitTotal}>Total <b>{formatToARS(tramit.total)}</b> </div>
             <div  className={styles.tramitRemaining}>Restante <b>{formatToARS(tramit.total - sumOperation)}</b> </div>  

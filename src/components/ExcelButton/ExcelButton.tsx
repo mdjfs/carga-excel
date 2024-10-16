@@ -4,9 +4,10 @@ import Button from '../Button';
 
 interface ButtonProps {
     tramitId: string
+    name: string
 }
 
-const ExcelButton: React.FC<ButtonProps> = ({ tramitId }) => {
+const ExcelButton: React.FC<ButtonProps> = ({ tramitId, name }) => {
     const [loading, setLoading] = useState(false);
 
     const handleExport = async () => {
@@ -23,7 +24,7 @@ const ExcelButton: React.FC<ButtonProps> = ({ tramitId }) => {
 
         const a = document.createElement('a');
         a.href = urlBlob;
-        a.download = 'carga.xls';
+        a.download = name + '.xls';
         document.body.appendChild(a);
         a.click();
 

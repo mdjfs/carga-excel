@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use server';
 
-import { AFFILIATE_FIELDS, GROUP_FIELDS, MEDICAL_STUDY_FIELDS, TRAMIT_FIELDS, TRANSACTION_FIELDS } from "@/actions/constants";
+import { AFFILIATE_FIELDS, GROUP_FIELDS, MEDICAL_STUDY_FIELDS, TRAMIT_FIELDS, TRAMIT_FIELDS_TXT, TRANSACTION_FIELDS } from "@/actions/constants";
 import CreateButton from "../CreateButton";
 import CreateSelect from "../CreateSelect";
 import Input from "../Input";
@@ -13,7 +13,7 @@ import { getMedicalStudies } from "@/actions/getMedicalStudies";
 
 interface CreateDataProps {
     action: (formData: FormData) => Promise<any>;
-    type: 'operation' | 'tramit' | 'group' | 'transaction'
+    type: 'operation' | 'tramit' | 'group' | 'transaction' | 'tramit-txt'
 }
 
 export default async function CreateData ({ action, type }: CreateDataProps) {
@@ -43,8 +43,9 @@ export default async function CreateData ({ action, type }: CreateDataProps) {
             <p>Estudio Médico</p>
             <CreateSelect required data={medicalStudies} placeholder="Ingrese el código del estudio médico o el nombre del mismo" createAction={createMedicalStudy} searchKeys={[MEDICAL_STUDY_FIELDS.name, MEDICAL_STUDY_FIELDS.code]} name="Estudio" keyValue={MEDICAL_STUDY_FIELDS.code} keyText={MEDICAL_STUDY_FIELDS.name}>
                 <p>Nombre del Estudio Médico</p>
-                <Input name={MEDICAL_STUDY_FIELDS.name} placeholder="Nombre del Estudio Médico" />
+                <Input name={MEDICAL_STUDY_FIELDS.name} placeholder="Nombre del Estudio Médico" required />
                 <p>Código del Estudio Médico</p>
+                <p>(Dejar en blanco si no tiene código)</p>
                 <Input validator={{ type: 'code', message: 'El código del estudio tiene que tener 6 digitos' }} name={MEDICAL_STUDY_FIELDS.code} placeholder="Código del Estudio Médico" />
             </CreateSelect>
         </CreateButton>
@@ -76,6 +77,13 @@ export default async function CreateData ({ action, type }: CreateDataProps) {
           <Input name={TRAMIT_FIELDS.name} placeholder="Nombre del Trámite" required />
           <p>Monto Total del Trámite</p>
           <Input type="number" name={TRAMIT_FIELDS.total} placeholder="Monto Total del Trámite" required />
+        </CreateButton>
+    }
+    if(type === 'tramit-txt') {
+        return <CreateButton createAction={action} label="Cargar Trámite" redirectUri="/tramite/[id]" warning>
+            <p><b>Cargar trámite via archivo .txt</b></p>
+            <p>Seleccione el Archivo</p>
+            <Input type="file" name={TRAMIT_FIELDS_TXT.file} required />
         </CreateButton>
     }
 }

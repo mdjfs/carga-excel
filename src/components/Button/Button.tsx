@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './button.module.scss';
 import NextLink from "next/link"
 
-interface ButtonProps {
+export interface ButtonProps {
     label: string;
     onClick?: () => void;
     href?: string;

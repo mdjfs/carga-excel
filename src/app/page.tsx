@@ -1,4 +1,5 @@
 import { createTramit } from "@/actions/createTramit";
+import { createTramitTxt } from "@/actions/createTramitTxt";
 import { deleteTramit } from "@/actions/deleteTramit";
 import { getTramits } from "@/actions/getTramits";
 import Button from "@/components/Button";
@@ -21,7 +22,10 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
       <div style={{maxWidth: 1200, margin: 'auto', position: 'relative'}}>
-        <CreateData type="tramit" action={createTramit}/>
+        <div style={{ display: 'inline-flex', gap: 5, alignItems: 'center' }}>
+          <CreateData type="tramit" action={createTramit}/>
+          <CreateData type="tramit-txt" action={createTramitTxt} />
+        </div>
         {tramits.length === 0 && <p>No hay trámites creados todavía.</p>}
         {tramits.length > 0 && <>
           {complete === undefined && <>

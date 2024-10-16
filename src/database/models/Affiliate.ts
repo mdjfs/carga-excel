@@ -16,7 +16,7 @@ const affiliateSchema = new Schema<IAffiliate, Model<IAffiliate>>({
     type: String,
     unique: true,
     required: true,
-    minlength: 10,
+    minlength: 9,
     maxlength: 10
   }
 });

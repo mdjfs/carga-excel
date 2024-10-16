@@ -41,7 +41,7 @@ const Input: React.FC<InputProps> = ({ placeholder, name, value: propValue, onCh
         if(validator) {
             const regex = getRegex[validator.type]
             if(regex) {
-                 if(e.target.value.match(regex)) {
+                if(e.target.value.match(regex) || (!e.target.value && !required)) {
                     e.target.setCustomValidity('')
                 } else {
                     e.target.setCustomValidity(validator.message)  
